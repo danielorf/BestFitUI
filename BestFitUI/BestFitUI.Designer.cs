@@ -31,7 +31,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.openFile = new System.Windows.Forms.Button();
-            this.testButton = new System.Windows.Forms.Button();
+            this.calcButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
@@ -60,7 +60,7 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel1, 2);
             this.flowLayoutPanel1.Controls.Add(this.openFile);
-            this.flowLayoutPanel1.Controls.Add(this.testButton);
+            this.flowLayoutPanel1.Controls.Add(this.calcButton);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 437);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -77,15 +77,15 @@
             this.openFile.UseVisualStyleBackColor = true;
             this.openFile.Click += new System.EventHandler(this.openFile_Click);
             // 
-            // testButton
+            // calcButton
             // 
-            this.testButton.Location = new System.Drawing.Point(84, 3);
-            this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(75, 23);
-            this.testButton.TabIndex = 1;
-            this.testButton.Text = "Test";
-            this.testButton.UseVisualStyleBackColor = true;
-            this.testButton.Click += new System.EventHandler(this.testButton_Click);
+            this.calcButton.Location = new System.Drawing.Point(84, 3);
+            this.calcButton.Name = "calcButton";
+            this.calcButton.Size = new System.Drawing.Size(102, 23);
+            this.calcButton.TabIndex = 1;
+            this.calcButton.Text = "Calculate Best Fit";
+            this.calcButton.UseVisualStyleBackColor = true;
+            this.calcButton.Click += new System.EventHandler(this.calcButton_Click);
             // 
             // dataGridView1
             // 
@@ -123,7 +123,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button openFile;
-        private System.Windows.Forms.Button testButton;
+        private System.Windows.Forms.Button calcButton;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
