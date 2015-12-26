@@ -33,6 +33,7 @@
             this.openFile = new System.Windows.Forms.Button();
             this.testButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -74,6 +75,7 @@
             this.openFile.TabIndex = 0;
             this.openFile.Text = "Open File";
             this.openFile.UseVisualStyleBackColor = true;
+            this.openFile.Click += new System.EventHandler(this.openFile_Click);
             // 
             // testButton
             // 
@@ -83,6 +85,7 @@
             this.testButton.TabIndex = 1;
             this.testButton.Text = "Test";
             this.testButton.UseVisualStyleBackColor = true;
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
             // dataGridView1
             // 
@@ -94,14 +97,20 @@
             this.dataGridView1.Size = new System.Drawing.Size(554, 354);
             this.dataGridView1.TabIndex = 1;
             // 
-            // Form1
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "\"CSV Files (*.csv)|*.csv|All Files (*.*)|*.*\"";
+            // 
+            // BestFitUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(560, 470);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "Form1";
+            this.Name = "BestFitUI";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.BestFitUI_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -116,6 +125,7 @@
         private System.Windows.Forms.Button openFile;
         private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 
