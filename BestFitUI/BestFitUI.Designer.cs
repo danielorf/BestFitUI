@@ -1,6 +1,6 @@
 ﻿namespace BestFitUI
 {
-    partial class Form1
+    partial class BestFitUI
     {
         /// <summary>
         /// Required designer variable.

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace BestFitUI
 {
-    public partial class Form1 : Form
+    public partial class BestFitUI : Form
     {
-        public Form1()
+        public BestFitUI()
         {
             InitializeComponent();
         }
