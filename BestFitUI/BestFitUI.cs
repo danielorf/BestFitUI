@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics.LinearAlgebra;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Transform3DBestFit;
 
 namespace BestFitUI
 {
@@ -14,21 +16,17 @@ namespace BestFitUI
     {
         //string tablename = "pointTable";
         DataTable dt = new DataTable();
-        string[] row = new string[] { "a", "b", "c", "d", "e", "f" };
         double[,] actualsArray;
         double[,] nominalsArray;
+        Transform3D transform;
+        bool calculated = false;
 
 
         public BestFitUI()
         {
             InitializeComponent();
         }
-
-        private void calcButton_Click(object sender, EventArgs e)
-        {
-            dataGridView1.Rows.Add(row);
-        }
-
+                
         private void BestFitUI_Load(object sender, EventArgs e)
         {
             dt.Columns.Add("Xactual", System.Type.GetType("System.String"));
@@ -42,7 +40,7 @@ namespace BestFitUI
             dataGridView1.DataSource = dt;
         }
 
-        private void openFile_Click(object sender, EventArgs e)
+        private void openFileButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -68,26 +66,64 @@ namespace BestFitUI
                 csv.Close();
 
                 dataGridView1.DataSource = dt;
-                
-                actualsArray = new double[3, dt.Rows.Count];
-                nominalsArray = new double[3, dt.Rows.Count];
+
+                actualsArray = new double[dt.Rows.Count, 3];
+                nominalsArray = new double[dt.Rows.Count, 3];
 
 
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    actualsArray[0, i] = Convert.ToDouble(dt.Rows[i][0].ToString());
-                    actualsArray[1, i] = Convert.ToDouble(dt.Rows[i][1].ToString());
-                    actualsArray[2, i] = Convert.ToDouble(dt.Rows[i][2].ToString());
-                    
-                    nominalsArray[0, i] = Convert.ToDouble(dt.Rows[i][3].ToString());
-                    nominalsArray[1, i] = Convert.ToDouble(dt.Rows[i][4].ToString());
-                    nominalsArray[2, i] = Convert.ToDouble(dt.Rows[i][5].ToString());
+                    actualsArray[i, 0] = Convert.ToDouble(dt.Rows[i][0].ToString());
+                    actualsArray[i, 1] = Convert.ToDouble(dt.Rows[i][1].ToString());
+                    actualsArray[i, 2] = Convert.ToDouble(dt.Rows[i][2].ToString());
+
+                    nominalsArray[i, 0] = Convert.ToDouble(dt.Rows[i][3].ToString());
+                    nominalsArray[i, 1] = Convert.ToDouble(dt.Rows[i][4].ToString());
+                    nominalsArray[i, 2] = Convert.ToDouble(dt.Rows[i][5].ToString());
+
+                }
+            }
+
+            openFileButton.Enabled = false;
+        }
+
+        private void calcButton_Click(object sender, EventArgs e)
+        {
+            if (actualsArray == null)
+            {
+                MessageBox.Show("Open csv first");
+            }
+            else
+            {
+                try
+                {
+                    transform = new Transform3D(actualsArray, nominalsArray);
+                                        
+                    calculated = transform.CalcTransform(transform.actualsMatrix, transform.nominalsMatrix);
+                                        
+                    xTransLabel.Text = Math.Round(transform.Transform6DOFVector[0], 4).ToString();
+                    yTransLabel.Text = Math.Round(transform.Transform6DOFVector[1], 4).ToString();
+                    zTransLabel.Text = Math.Round(transform.Transform6DOFVector[2], 4).ToString();
+
+                    xRotationLabel.Text = Math.Round(transform.Transform6DOFVector[5], 4).ToString();
+                    yRotationLabel.Text = Math.Round(transform.Transform6DOFVector[4], 4).ToString();
+                    zRotationLabel.Text = Math.Round(transform.Transform6DOFVector[3], 4).ToString();
+
+                    errorLabel.Text = Math.Round(transform.ErrorRMS, 4).ToString();
+                    calcBoolLabel.Text = calculated.ToString();                    
                     
                 }
-                
-
+                catch (Exception)
+                {
+                    throw;
+                }
             }
+            
         }
-        
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

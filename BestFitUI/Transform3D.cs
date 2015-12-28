@@ -135,7 +135,8 @@ namespace Transform3DBestFit
         public bool CalcTransform(Matrix<double> actualsMatrix, Matrix<double> nominalsMatrix)
         {
             //check to see if actuals and nominals matrices are same dimension and that they have only 3 columns
-            if (actualsMatrix.ColumnCount != nominalsMatrix.ColumnCount || actualsMatrix.RowCount != nominalsMatrix.RowCount || actualsMatrix.ColumnCount != 3)
+            if (actualsMatrix.ColumnCount != nominalsMatrix.ColumnCount || actualsMatrix.RowCount != nominalsMatrix.RowCount || actualsMatrix.ColumnCount != 3
+                )
             {
                 if (actualsMatrix.ColumnCount != 3)
                 {
@@ -146,8 +147,8 @@ namespace Transform3DBestFit
                     Console.WriteLine("Dimensions of actuals and nominals don't match.");
                 }
 
-                //throw new ArgumentException(string.Format("Check that incomiang arrays have matching dimensions and only 3 columns."));
-                return false;
+                throw new ArgumentException(string.Format("Check that incoming arrays have matching dimensions and only 3 columns."));
+                //return false;
             }
             else
             {
