@@ -1,12 +1,5 @@
-﻿using MathNet.Numerics.LinearAlgebra;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Transform3DBestFit;
 
@@ -50,7 +43,6 @@ namespace BestFitUI
                 {
                     string csvRow = csv.ReadLine();
                     string[] splitRow = csvRow.Split(',');
-                    //dataGridView1.Rows.Add(splitRow);
                     DataRow dr = dt.NewRow();
                     dr["Xactual"] = splitRow[0];
                     dr["Yactual"] = splitRow[1];
