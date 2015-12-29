@@ -7,17 +7,28 @@ namespace BestFitUI
 {
     public partial class BestFitUI : Form
     {
-        //string tablename = "pointTable";
         DataTable dt = new DataTable();
         double[,] actualsArray;
         double[,] nominalsArray;
         Transform3D transform;
         bool calculated = false;
+        bool rotationUnitsInRadiansFlag = true;  //Radians if true, Degrees if false
+        double xRotationValueinRadians;
+        double yRotationValueinRadians;
+        double zRotationValueinRadians;
+        double rad2Deg = 180 / Math.PI;
 
+        
+
+        enum rotationUnits
+        {
+            Radians,
+            Degrees
+        }
 
         public BestFitUI()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
                 
         private void BestFitUI_Load(object sender, EventArgs e)
@@ -29,8 +40,9 @@ namespace BestFitUI
             dt.Columns.Add("Ynom", System.Type.GetType("System.String"));
             dt.Columns.Add("Znom", System.Type.GetType("System.String"));
             
-
             dataGridView1.DataSource = dt;
+            
+            rotationUnitsButton.Enabled = false;
         }
 
         private void openFileButton_Click(object sender, EventArgs e)
@@ -97,25 +109,86 @@ namespace BestFitUI
                     yTransLabel.Text = Math.Round(transform.Transform6DOFVector[1], 4).ToString();
                     zTransLabel.Text = Math.Round(transform.Transform6DOFVector[2], 4).ToString();
 
-                    xRotationLabel.Text = Math.Round(transform.Transform6DOFVector[5], 4).ToString();
-                    yRotationLabel.Text = Math.Round(transform.Transform6DOFVector[4], 4).ToString();
-                    zRotationLabel.Text = Math.Round(transform.Transform6DOFVector[3], 4).ToString();
+                    xRotationValueinRadians = Math.Round(transform.Transform6DOFVector[5], 4);
+                    yRotationValueinRadians = Math.Round(transform.Transform6DOFVector[4], 4);
+                    zRotationValueinRadians = Math.Round(transform.Transform6DOFVector[3], 4);
+
+                    //xRotationLabel.Text = xRotationValueinRadians.ToString();
+                    //yRotationLabel.Text = yRotationValueinRadians.ToString();
+                    //zRotationLabel.Text = zRotationValueinRadians.ToString();
+
+                    //xRotationLabel.Text = Math.Round(transform.Transform6DOFVector[5], 4).ToString();
+                    //yRotationLabel.Text = Math.Round(transform.Transform6DOFVector[4], 4).ToString();
+                    //zRotationLabel.Text = Math.Round(transform.Transform6DOFVector[3], 4).ToString();
 
                     errorLabel.Text = Math.Round(transform.ErrorRMS, 4).ToString();
-                    calcBoolLabel.Text = calculated.ToString();                    
-                    
+                    calcBoolLabel.Text = calculated.ToString();
+                    drawRotationValues();
+
+
                 }
                 catch (Exception)
                 {
                     throw;
                 }
             }
-            
+
+            toolStripStatusLabel.Text = "Rotation units are currently shown in " + returnRotationUnitsButtonText();
+            rotationUnitsButton.Enabled = true;
+
         }
 
         private void closeButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void rotationUnitsButton_Click(object sender, EventArgs e)
+        {
+            rotationUnitsInRadiansFlag = !rotationUnitsInRadiansFlag;
+
+            drawRotationValues();
+
+            toolStripStatusLabel.Text = "Rotation units are currently shown in " + returnRotationUnitsButtonText();
+
+        }
+
+        private string returnRotationUnitsButtonText()
+        {
+            if (rotationUnitsInRadiansFlag)
+            {
+                rotationUnitsButton.Text = rotationUnits.Degrees.ToString();
+                return rotationUnits.Radians.ToString();
+            }
+            else if (!rotationUnitsInRadiansFlag)
+            {
+                rotationUnitsButton.Text = rotationUnits.Radians.ToString();
+                return rotationUnits.Degrees.ToString();
+            }
+            else
+            {
+                throw new NullReferenceException("rotationInRadiansFlag is null somehow...");
+            }
+        }
+
+        private void drawRotationValues()
+        {
+            if (rotationUnitsInRadiansFlag)
+            {
+                xRotationLabel.Text = xRotationValueinRadians.ToString();
+                yRotationLabel.Text = yRotationValueinRadians.ToString();
+                zRotationLabel.Text = zRotationValueinRadians.ToString();
+            }
+            else if (!rotationUnitsInRadiansFlag)
+            {
+                xRotationLabel.Text = Math.Round((xRotationValueinRadians * rad2Deg), 4).ToString();
+                yRotationLabel.Text = Math.Round((yRotationValueinRadians * rad2Deg), 4).ToString();
+                zRotationLabel.Text = Math.Round((zRotationValueinRadians * rad2Deg), 4).ToString();
+            }
+            else
+            {
+                throw new NullReferenceException("rotationInRadiansFlag is null somehow...");
+            }
         }
     }
 }
